@@ -5,9 +5,6 @@ import Constants from 'expo-constants';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 
-// or any pure javascript modules available in npm
-import { Card } from 'react-native-paper';
-
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 

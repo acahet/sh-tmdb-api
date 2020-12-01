@@ -1,16 +1,30 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import {
+	StyleSheet,
+	Text,
+	View,
+	FlatList,
+	TouchableOpacity,
+} from 'react-native';
 
 import CardComponent from '../../../components/common/card';
 import GlobalStyles from '../../../constants/GlobalStyles';
 import { TV_GENRES } from '../../../queries';
 
-const renderGridItem = (data) => {
-	return <CardComponent title={data.item.name} />;
-};
-
 const GenreDetailsScreen = (props) => {
+	const renderGridItem = (data) => {
+		return (
+			<TouchableOpacity
+				style={styles.card}
+				onPress={() => {
+					props.navigation.navigate({ routeName: 'TvShows' });
+				}}
+			>
+				<CardComponent title={data.item.name} />
+			</TouchableOpacity>
+		);
+	};
 	const ACTIONS_GENRE = '10759';
 	const COMEDY_GENRE = '35';
 	const CRIME_GENRE = '80';
@@ -32,11 +46,26 @@ const GenreDetailsScreen = (props) => {
 		);
 	console.log(data.tvGenres);
 	const { tvGenres } = data;
+	const genres = tvGenres.filter(
+		(f) =>
+			f.id === ACTIONS_GENRE ||
+			f.id === COMEDY_GENRE ||
+			f.id === CRIME_GENRE ||
+			f.id === DRAMA_GENRE ||
+			f.id === MYSTERY_GENRE ||
+			f.id === SCI_FI_FANTASY_GENRE
+	);
 	return (
-		<FlatList data={tvGenres} renderItem={renderGridItem} numColumns={2} />
+		<FlatList data={genres} renderItem={renderGridItem} />
 	);
 };
 
 export default GenreDetailsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	card: {
+		flex: 1,
+		margin: 15,
+		height: 150,
+	},
+});
