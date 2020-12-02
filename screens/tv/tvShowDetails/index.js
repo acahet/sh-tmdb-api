@@ -1,15 +1,15 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import GlobalStyles from '../../../constants/GlobalStyles'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import GlobalStyles from '../../../constants/GlobalStyles';
 
-const TvShowDetailsScreen = () => {
-    return (
-        <View style={GlobalStyles.mainViewScreen}>
-            <Text>TvShowDetails</Text>
-        </View>
-    )
-}
+const TvShowDetailsScreen = (props) => {
+	return (
+		<View style={GlobalStyles.mainViewScreen}>
+			<Text>TvShowDetails</Text>
+		</View>
+	);
+};
 
-export default TvShowDetailsScreen
+export default TvShowDetailsScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

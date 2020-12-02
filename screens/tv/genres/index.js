@@ -6,9 +6,11 @@ import {
 	View,
 	FlatList,
 	TouchableOpacity,
+	Platform,
 } from 'react-native';
 
 import CardComponent from '../../../components/common/card';
+import Colors from '../../../constants/Colors';
 import GlobalStyles from '../../../constants/GlobalStyles';
 import { TV_GENRES } from '../../../queries';
 
@@ -18,10 +20,16 @@ const GenreDetailsScreen = (props) => {
 			<TouchableOpacity
 				style={styles.card}
 				onPress={() => {
-					props.navigation.navigate({ routeName: 'TvShows' });
+					props.navigation.navigate({
+						routeName: 'TvShows',
+						params: {
+							genreId: data.item.id,
+							genreTitle: data.item.name,
+						},
+					});
 				}}
 			>
-				<CardComponent title={data.item.name} />
+				<CardComponent displayCardTitle cardTitle={data.item.name} />
 			</TouchableOpacity>
 		);
 	};
@@ -55,9 +63,15 @@ const GenreDetailsScreen = (props) => {
 			f.id === MYSTERY_GENRE ||
 			f.id === SCI_FI_FANTASY_GENRE
 	);
-	return (
-		<FlatList data={genres} renderItem={renderGridItem} />
-	);
+	return <FlatList data={genres} renderItem={renderGridItem} />;
+};
+GenreDetailsScreen.navigationOptions = {
+	headerTitle: 'What to Watch!',
+	headerTintColor:
+		Platform.OS === 'android' ? Colors.whiteColor : Colors.primaryColor,
+	headerStyle: {
+		backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : null,
+	},
 };
 
 export default GenreDetailsScreen;
