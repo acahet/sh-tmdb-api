@@ -7,17 +7,26 @@ import {
 	FlatList,
 	TouchableOpacity,
 	Platform,
+	Dimensions,
 } from 'react-native';
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 
 import CardComponent from '../../../components/common/card';
+import LoadingButton from '../../../components/common/loadingButton';
+import RenderListComponent from '../../../components/common/renderList';
 import Colors from '../../../constants/Colors';
 import GlobalStyles from '../../../constants/GlobalStyles';
 import { TV_GENRES } from '../../../queries';
 
+let TouchaleCmp = TouchableOpacity;
+if (Platform.OS === 'android' && Platform.Version >= 21) {
+	TouchaleCmp = TouchableNativeFeedback;
+}
+
 const GenreDetailsScreen = (props) => {
 	const renderGridItem = (data) => {
 		return (
-			<TouchableOpacity
+			<RenderListComponent
 				style={styles.card}
 				onPress={() => {
 					props.navigation.navigate({
@@ -30,7 +39,7 @@ const GenreDetailsScreen = (props) => {
 				}}
 			>
 				<CardComponent displayCardTitle cardTitle={data.item.name} />
-			</TouchableOpacity>
+			</RenderListComponent>
 		);
 	};
 	const ACTIONS_GENRE = '10759';
@@ -40,19 +49,13 @@ const GenreDetailsScreen = (props) => {
 	const MYSTERY_GENRE = '9648';
 	const SCI_FI_FANTASY_GENRE = '10765';
 	const { error, data, loading } = useQuery(TV_GENRES);
-	if (loading)
-		return (
-			<View style={GlobalStyles.mainViewScreen}>
-				<Text>Loading...</Text>
-			</View>
-		);
+	if (loading) return <LoadingButton loading={loading} />;
 	if (error)
 		return (
 			<View style={GlobalStyles.mainViewScreen}>
 				<Text>ERROR</Text>
 			</View>
 		);
-	console.log(data.tvGenres);
 	const { tvGenres } = data;
 	const genres = tvGenres.filter(
 		(f) =>
@@ -81,5 +84,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		margin: 15,
 		height: 150,
+		width: Dimensions.get('window').width - 30,
 	},
 });

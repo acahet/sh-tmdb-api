@@ -1,8 +1,11 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import LoadingButton from '../../../components/common/loadingButton';
+
 import CardComponent from '../../../components/common/card';
+import RenderListComponent from '../../../components/common/renderList';
 import { SERIES } from '../../../queries';
 
 const ShowsByCategory = (props) => {
@@ -10,24 +13,19 @@ const ShowsByCategory = (props) => {
 
 	const renderItems = (data) => {
 		return (
-			<TouchableOpacity onPress={() => {}}>
+			<RenderListComponent style={styles.list} onPress={() => {}}>
 				<CardComponent
 					key={data.item.id}
 					title={data.item.name}
 					source={data.item.backdrop.medium}
 					paragraph={data.item.overview}
 				></CardComponent>
-			</TouchableOpacity>
+			</RenderListComponent>
 		);
 	};
 
 	const { loading, data } = useQuery(SERIES);
-	if (loading)
-		return (
-			<View>
-				<Text>Loading...</Text>
-			</View>
-		);
+	if (loading) return <LoadingButton loading={loading} />;
 	console.log(data.popularTV);
 	const filteredByGenre = data.popularTV
 		.filter((popular) => {
@@ -47,4 +45,8 @@ ShowsByCategory.navigationOptions = (navigationData) => {
 };
 export default ShowsByCategory;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	list: {
+		width: '100%',
+	},
+});
