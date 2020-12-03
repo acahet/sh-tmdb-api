@@ -8,7 +8,6 @@ import {
 	View,
 	FlatList,
 } from 'react-native';
-import { Card, Paragraph, Title } from 'react-native-paper';
 import CardComponent from '../../../components/common/card';
 import LoadingButton from '../../../components/common/loadingButton';
 import RenderListComponent from '../../../components/common/renderList';
@@ -39,20 +38,17 @@ const TvShowDetailsScreen = (props) => {
 			style={styles.imageBackgroundStyle}
 			source={{ uri: data.tv.poster.huge }}
 		>
-			<View style={styles.cardContainer}>
-				<Card>
-					<View style={styles.tst}>
-						<Card.Cover
-							style={styles.cardImage}
-							source={{ uri: data.tv.poster.large }}
-						/>
-					</View>
-					<Card.Content>
-						<Paragraph>{data.tv.overview}</Paragraph>
-						<Paragraph>{data.tv.status}</Paragraph>
-					</Card.Content>
-				</Card>
+		<View style={styles.cardContainer}>
+				<CardComponent
+					seriesView
+					styleCardCover={styles.cardTopContainer}
+					styleCardCoverImage={styles.cardImage}
+					source={data.tv.poster.large}
+					// overview={data.tv.overview}
+					// status={data.tv.status}
+				/>
 			</View>
+			
 			<View style={styles.flatlistContainer}>
 				<FlatList
 					ref={carouselRef}
@@ -88,9 +84,9 @@ const styles = StyleSheet.create({
 		height: '100%',
 		opacity: 0.7,
 	},
-	tst: {
+	cardTopContainer: {
 		width: '100%',
-		height: 230,
+		height: '100%',
 	},
 	flatlistContainer: {
 		width: '100%',
@@ -99,13 +95,12 @@ const styles = StyleSheet.create({
 		paddingTop: 0,
 	},
 	flatlistStyle: {
-		// flex:1,
 		overflow: 'visible',
 	},
 	cardImage: {
 		width: '100%',
-		height: 300,
-		resizeMode: 'stretch',
+		height: '100%',
+		// resizeMode: 'cover',
 		backgroundColor: 'rgba(0,0,0,0.9)',
 	},
 	carouselImage: {

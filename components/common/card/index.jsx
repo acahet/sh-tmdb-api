@@ -31,12 +31,15 @@ const CardComponent = (props) => {
 			)}
 			{props.seriesView && (
 				<React.Fragment>
+				<Card style={props.styleCardCover}>
+				
 					<Card.Cover
-						style={props.style}
+						style={props.styleCardCoverImage}
 						source={{ uri: props.source }}
 					/>
-
-					<Card.Content>{props.children}</Card.Content>
+			
+				
+			</Card>
 				</React.Fragment>
 			)}
 		</Card>
@@ -81,3 +84,11 @@ const styles = StyleSheet.create({
 		resizeMode: 'cover',
 	},
 });
+
+
+// card details for seriesview
+
+// <Card.Content>
+// 					<Paragraph>{props.overview}</Paragraph>
+// 					<Paragraph>{props.status}</Paragraph>
+// 				</Card.Content>
