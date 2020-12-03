@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	ScrollView,
 	FlatList,
 } from 'react-native';
 import { Card, Paragraph, Title } from 'react-native-paper';
@@ -33,32 +32,33 @@ const TvShowDetailsScreen = (props) => {
 	});
 	if (loading) return <LoadingButton loading={loading} />;
 	// if (error) return <View><Text>ERRor: {error}</Text></View>
-	// console.log('TvShowDetailsScreen ===>', serieId, data);
+	console.log('TvShowDetailsScreen ===>', serieId, data.tv);
 	return (
 		<ImageBackground
 			blurRadius={10}
 			style={styles.imageBackgroundStyle}
-			source={{ uri: data.shows[0].poster.huge }}
+			source={{ uri: data.tv.poster.huge }}
 		>
 			<View style={styles.cardContainer}>
 				<Card>
 					<View style={styles.tst}>
 						<Card.Cover
 							style={styles.cardImage}
-							source={{ uri: data.shows[0].poster.large }}
+							source={{ uri: data.tv.poster.large }}
 						/>
 					</View>
 					<Card.Content>
-						<Paragraph>{data.shows[0].overview}</Paragraph>
-						<Paragraph>{data.shows[0].status}</Paragraph>
+						<Paragraph>{data.tv.overview}</Paragraph>
+						<Paragraph>{data.tv.status}</Paragraph>
 					</Card.Content>
 				</Card>
 			</View>
 			<View style={styles.flatlistContainer}>
 				<FlatList
+					ref={carouselRef}
 					style={styles.flatlistStyle}
 					horizontal
-					data={data.shows[0].seasons}
+					data={data.tv.seasons}
 					renderItem={renderItem}
 				/>
 			</View>

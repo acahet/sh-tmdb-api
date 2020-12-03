@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const FETCH_SERIE_BY_ID = gql`
-	query tv($id: [ID!]) {
-		shows(ids: $id) {
+	query tv($id: ID!) {
+		tv(id: $id) {
 			id
 			name
 			overview
@@ -16,7 +16,9 @@ export const FETCH_SERIE_BY_ID = gql`
 				}
 				videos {
 					id
+					name
 					key
+					site
 				}
 			}
 
