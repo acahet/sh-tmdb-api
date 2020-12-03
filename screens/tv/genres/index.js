@@ -10,8 +10,10 @@ import {
 	Dimensions,
 } from 'react-native';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import CardComponent from '../../../components/common/card';
+import HeaderButtonComponent from '../../../components/common/headerButton';
 import LoadingButton from '../../../components/common/loadingButton';
 import RenderListComponent from '../../../components/common/renderList';
 import Colors from '../../../constants/Colors';
@@ -68,13 +70,28 @@ const GenreDetailsScreen = (props) => {
 	);
 	return <FlatList data={genres} renderItem={renderGridItem} />;
 };
-GenreDetailsScreen.navigationOptions = {
-	headerTitle: 'What to Watch!',
-	headerTintColor:
-		Platform.OS === 'android' ? Colors.whiteColor : Colors.primaryColor,
-	headerStyle: {
-		backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : null,
-	},
+GenreDetailsScreen.navigationOptions = (navData) => {
+	return {
+		headerTitle: 'ShareMovies',
+		headerLeft: () => (
+			<HeaderButtons HeaderButtonComponent={HeaderButtonComponent}>
+				<Item
+					title="Menu"
+					iconName="menu"
+					iconSize={40}
+					onPress={() => {
+						navData.navigation.toggleDrawer();
+					}}
+				/>
+			</HeaderButtons>
+		),
+		headerTintColor:
+			Platform.OS === 'android' ? Colors.whiteColor : Colors.primaryColor,
+		headerStyle: {
+			backgroundColor:
+				Platform.OS === 'android' ? Colors.primaryColor : null,
+		},
+	};
 };
 
 export default GenreDetailsScreen;

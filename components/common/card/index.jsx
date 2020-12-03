@@ -55,7 +55,7 @@ export default CardComponent;
 const styles = StyleSheet.create({
 	card: {
 		flex: 1,
-		margin: 15,
+		margin: 5,
 		height: 300,
 		borderRadius: 10,
 		overflow: 'hidden',

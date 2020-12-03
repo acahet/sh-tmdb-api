@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/client';
 
 import {
@@ -16,14 +16,12 @@ import RenderListComponent from '../../../components/common/renderList';
 import { FETCH_SERIE_BY_ID } from '../../../queries';
 
 const TvShowDetailsScreen = (props) => {
-	const carouselRef = useRef(null);
+	// const carouselRef = useRef(null);
 	const renderItem = (itemData) => (
 		<RenderListComponent onPress={() => {}}>
 			<Image
 				source={{
-					uri:
-						itemData.item.poster.medium ||
-						itemData.item.poster.medium,
+					uri: itemData.item.poster.medium,
 				}}
 				style={styles.carouselImage}
 			/>
@@ -33,10 +31,11 @@ const TvShowDetailsScreen = (props) => {
 	const serieId = props.navigation.getParam('serieId');
 	const { error, loading, data } = useQuery(FETCH_SERIE_BY_ID, {
 		variables: { id: serieId },
+		fetchPolicy: 'cache-first',
 	});
 	if (loading) return <LoadingButton loading={loading} />;
 	// if (error) return <View><Text>ERRor: {error}</Text></View>
-	console.log('TvShowDetailsScreen ===>', serieId, data.tv);
+	// console.log('TvShowDetailsScreen ===>', query.tv);
 	return (
 		<ImageBackground
 			blurRadius={10}
@@ -56,7 +55,8 @@ const TvShowDetailsScreen = (props) => {
 
 			<View style={styles.flatlistContainer}>
 				<FlatList
-					ref={carouselRef}
+					// ref={carouselRef}
+					refreshing={true}
 					style={styles.flatlistStyle}
 					horizontal
 					data={data.tv.seasons}
@@ -75,7 +75,6 @@ TvShowDetailsScreen.navigationOptions = (navigationData) => {
 				title="Favorite"
 				iconName="favorite-border"
 				onPress={() => {
-					console.log(info, "========>>")
 					console.log('PRESSED');
 				}}
 			/>
@@ -105,7 +104,8 @@ const styles = StyleSheet.create({
 	},
 	flatlistContainer: {
 		width: '100%',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
+		// alignItems: 'center',
 		height: 350,
 		paddingTop: 0,
 	},

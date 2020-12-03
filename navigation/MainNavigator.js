@@ -8,12 +8,22 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 
-import GenreDetailsScreen from '../screens/tv/genres/index';
-import ShowsByCategory from '../screens/tv/showsByCategory/index';
-import TvShowDetailsScreen from '../screens/tv/tvShowDetails/index';
+import GenreDetailsScreen from '../screens/tv/genres';
+import ShowsByCategory from '../screens/tv/showsByCategory';
+import TvShowDetailsScreen from '../screens/tv/tvShowDetails';
 
 import Colors from '../constants/Colors';
 import FavoritesScreen from '../screens/favorites';
+import FilterScreen from '../screens/filters';
+
+const defaultNavigationOptions = {
+	headerStyle: {
+		backgroundColor:
+			Platform.OS === 'android' ? Colors.primaryColor : Colors.whiteColor,
+	},
+	headerTintColor:
+		Platform.OS === 'android' ? Colors.whiteColor : Colors.primaryColor,
+};
 
 const MainNavigator = createStackNavigator(
 	{
@@ -22,18 +32,17 @@ const MainNavigator = createStackNavigator(
 		TvShowsDetails: { screen: TvShowDetailsScreen },
 	},
 	{
-		defaultNavigationOptions: {
-			headerStyle: {
-				backgroundColor:
-					Platform.OS === 'android'
-						? Colors.primaryColor
-						: Colors.whiteColor,
-			},
-			headerTintColor:
-				Platform.OS === 'android'
-					? Colors.whiteColor
-					: Colors.primaryColor,
-		},
+		defaultNavigationOptions: defaultNavigationOptions,
+	}
+);
+
+const FavoritesStackNavigator = createStackNavigator(
+	{
+		Favorites: FavoritesScreen,
+		TvShowsDetails: TvShowDetailsScreen,
+	},
+	{
+		defaultNavigationOptions: defaultNavigationOptions,
 	}
 );
 
@@ -47,14 +56,16 @@ const tabScreenConfig = {
 					<MaterialIcons
 						name="movie"
 						size={25}
-						color={focused ? Colors.whiteColor : Colors.primaryColor}
+						color={
+							focused ? Colors.whiteColor : Colors.primaryColor
+						}
 					/>
 				);
 			},
 		},
 	},
 	Favorites: {
-		screen: FavoritesScreen,
+		screen: FavoritesStackNavigator,
 		navigationOptions: {
 			tabBarIcon: (tabInfo) => {
 				const { focused } = tabInfo;
@@ -91,4 +102,13 @@ const FavoritesTabNavigator =
 					},
 				}
 		  );
-export default createAppContainer(FavoritesTabNavigator);
+
+
+const FiltersNavigator = createStackNavigator({
+	Filters: FilterScreen,
+});
+const MainDrawerNavigator = createDrawerNavigator({
+	TVFavorites: FavoritesTabNavigator,
+	Filters: FiltersNavigator,
+});
+export default createAppContainer(MainDrawerNavigator);
