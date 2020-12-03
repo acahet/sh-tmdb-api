@@ -13,6 +13,8 @@ export const FETCH_SERIE_BY_ID = gql`
 				overview
 				poster {
 					medium
+					huge
+					large
 				}
 				videos {
 					id

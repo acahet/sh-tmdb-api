@@ -1,5 +1,6 @@
+import React from 'react';
 import { useQuery } from '@apollo/client';
-import React, { useRef } from 'react';
+
 import {
 	ImageBackground,
 	Image,
@@ -9,36 +10,39 @@ import {
 	FlatList,
 } from 'react-native';
 import CardComponent from '../../../components/common/card';
+import HeaderButtonComponent from '../../../components/common/headerButton';
 import LoadingButton from '../../../components/common/loadingButton';
 import RenderListComponent from '../../../components/common/renderList';
 import { FETCH_SERIE_BY_ID } from '../../../queries';
 
 const TvShowDetailsScreen = (props) => {
-	const carouselRef = useRef(null);
+	// const carouselRef = useRef(null);
 	const renderItem = (itemData) => (
 		<RenderListComponent onPress={() => {}}>
 			<Image
-				source={{ uri: itemData.item.poster.medium }}
+				source={{
+					uri: itemData.item.poster.medium,
+				}}
 				style={styles.carouselImage}
 			/>
 			<Text style={styles.carouselText}>{itemData.item.name}</Text>
 		</RenderListComponent>
 	);
 	const serieId = props.navigation.getParam('serieId');
-	const serieName = props.navigation.getParam('serieName');
 	const { error, loading, data } = useQuery(FETCH_SERIE_BY_ID, {
 		variables: { id: serieId },
+		fetchPolicy: 'cache-first',
 	});
 	if (loading) return <LoadingButton loading={loading} />;
 	// if (error) return <View><Text>ERRor: {error}</Text></View>
-	console.log('TvShowDetailsScreen ===>', serieId, data.tv);
+	// console.log('TvShowDetailsScreen ===>', query.tv);
 	return (
 		<ImageBackground
 			blurRadius={10}
 			style={styles.imageBackgroundStyle}
 			source={{ uri: data.tv.poster.huge }}
 		>
-		<View style={styles.cardContainer}>
+			<View style={styles.cardContainer}>
 				<CardComponent
 					seriesView
 					styleCardCover={styles.cardTopContainer}
@@ -48,10 +52,11 @@ const TvShowDetailsScreen = (props) => {
 					// status={data.tv.status}
 				/>
 			</View>
-			
+
 			<View style={styles.flatlistContainer}>
 				<FlatList
-					ref={carouselRef}
+					// ref={carouselRef}
+					refreshing={true}
 					style={styles.flatlistStyle}
 					horizontal
 					data={data.tv.seasons}
@@ -65,6 +70,15 @@ TvShowDetailsScreen.navigationOptions = (navigationData) => {
 	const serieName = navigationData.navigation.getParam('serieName');
 	return {
 		headerTitle: serieName,
+		headerRight: () => (
+			<HeaderButtonComponent
+				title="Favorite"
+				iconName="favorite-border"
+				onPress={() => {
+					console.log('PRESSED');
+				}}
+			/>
+		),
 	};
 };
 export default TvShowDetailsScreen;
@@ -90,7 +104,8 @@ const styles = StyleSheet.create({
 	},
 	flatlistContainer: {
 		width: '100%',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
+		// alignItems: 'center',
 		height: 350,
 		paddingTop: 0,
 	},

@@ -17,6 +17,8 @@ export default LoadingButton;
 
 const styles = StyleSheet.create({
 	loading: {
+		// flex: 1,
+		justifyContent: 'center',
 		position: 'relative',
 	},
 });
