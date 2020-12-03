@@ -7,20 +7,38 @@ export const FETCH_SERIE_BY_ID = gql`
 			name
 			overview
 			status
+			seasons {
+				id
+				name
+				overview
+				poster {
+					medium
+				}
+				videos {
+					id
+					key
+				}
+			}
+
 			poster {
 				huge
+				small
+				medium
+				large
 			}
 		}
 	}
 `;
 
-export const SERIES = gql`
+export const FETCH_POPULAR_SERIES = gql`
 	{
 		popularTV {
 			id
 			name
-			overview
 			status
+			seasonCount
+			votes
+			popularity
 			backdrop {
 				medium
 			}
@@ -31,7 +49,7 @@ export const SERIES = gql`
 	}
 `;
 
-export const TV_GENRES = gql`
+export const FETCH_TV_GENRES = gql`
 	{
 		tvGenres {
 			id

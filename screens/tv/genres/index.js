@@ -16,7 +16,7 @@ import LoadingButton from '../../../components/common/loadingButton';
 import RenderListComponent from '../../../components/common/renderList';
 import Colors from '../../../constants/Colors';
 import GlobalStyles from '../../../constants/GlobalStyles';
-import { TV_GENRES } from '../../../queries';
+import { FETCH_TV_GENRES } from '../../../queries';
 
 let TouchaleCmp = TouchableOpacity;
 if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -48,7 +48,7 @@ const GenreDetailsScreen = (props) => {
 	const DRAMA_GENRE = '18';
 	const MYSTERY_GENRE = '9648';
 	const SCI_FI_FANTASY_GENRE = '10765';
-	const { error, data, loading } = useQuery(TV_GENRES);
+	const { error, data, loading } = useQuery(FETCH_TV_GENRES);
 	if (loading) return <LoadingButton loading={loading} />;
 	if (error)
 		return (
