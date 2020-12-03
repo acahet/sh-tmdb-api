@@ -75,6 +75,7 @@ TvShowDetailsScreen.navigationOptions = (navigationData) => {
 				title="Favorite"
 				iconName="favorite-border"
 				onPress={() => {
+					console.log(info, "========>>")
 					console.log('PRESSED');
 				}}
 			/>
