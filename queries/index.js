@@ -1,26 +1,46 @@
 import { gql } from '@apollo/client';
 
 export const FETCH_SERIE_BY_ID = gql`
-	query tv($id: [ID!]) {
-		shows(ids: $id) {
+	query tv($id: ID!) {
+		tv(id: $id) {
 			id
 			name
 			overview
 			status
+			seasons {
+				id
+				name
+				overview
+				poster {
+					medium
+				}
+				videos {
+					id
+					name
+					key
+					site
+				}
+			}
+
 			poster {
 				huge
+				small
+				medium
+				large
 			}
 		}
 	}
 `;
 
-export const SERIES = gql`
+export const FETCH_POPULAR_SERIES = gql`
 	{
 		popularTV {
 			id
 			name
-			overview
 			status
+			seasonCount
+			votes
+			popularity
 			backdrop {
 				medium
 			}
@@ -31,7 +51,7 @@ export const SERIES = gql`
 	}
 `;
 
-export const TV_GENRES = gql`
+export const FETCH_TV_GENRES = gql`
 	{
 		tvGenres {
 			id

@@ -6,27 +6,41 @@ import LoadingButton from '../../../components/common/loadingButton';
 
 import CardComponent from '../../../components/common/card';
 import RenderListComponent from '../../../components/common/renderList';
-import { SERIES } from '../../../queries';
+import { FETCH_POPULAR_SERIES } from '../../../queries';
 
 const ShowsByCategory = (props) => {
 	const genreId = props.navigation.getParam('genreId');
 
 	const renderItems = (data) => {
 		return (
-			<RenderListComponent style={styles.list} onPress={() => {}}>
+			<RenderListComponent
+				style={styles.list}
+				onPress={() => {
+					props.navigation.navigate({
+						routeName: 'TvShowsDetails',
+						params: {
+							serieId: data.item.id,
+							serieName: data.item.name,
+						},
+					});
+				}}
+			>
 				<CardComponent
+					displayList
 					key={data.item.id}
 					title={data.item.name}
 					source={data.item.backdrop.medium}
-					paragraph={data.item.overview}
+					showStatus={data.item.status}
+					showSeasonCount={data.item.seasonCount}
+					showPopularity={data.item.popularity}
+					showVotes={data.item.votes}
 				></CardComponent>
 			</RenderListComponent>
 		);
 	};
 
-	const { loading, data } = useQuery(SERIES);
+	const { loading, data } = useQuery(FETCH_POPULAR_SERIES);
 	if (loading) return <LoadingButton loading={loading} />;
-	console.log(data.popularTV);
 	const filteredByGenre = data.popularTV
 		.filter((popular) => {
 			return popular.genres.some(
