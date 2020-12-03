@@ -1,5 +1,6 @@
-import { useQuery } from '@apollo/client';
 import React, { useRef } from 'react';
+import { useQuery } from '@apollo/client';
+
 import {
 	ImageBackground,
 	Image,
@@ -9,6 +10,7 @@ import {
 	FlatList,
 } from 'react-native';
 import CardComponent from '../../../components/common/card';
+import HeaderButtonComponent from '../../../components/common/headerButton';
 import LoadingButton from '../../../components/common/loadingButton';
 import RenderListComponent from '../../../components/common/renderList';
 import { FETCH_SERIE_BY_ID } from '../../../queries';
@@ -18,14 +20,17 @@ const TvShowDetailsScreen = (props) => {
 	const renderItem = (itemData) => (
 		<RenderListComponent onPress={() => {}}>
 			<Image
-				source={{ uri: itemData.item.poster.medium }}
+				source={{
+					uri:
+						itemData.item.poster.medium ||
+						itemData.item.poster.medium,
+				}}
 				style={styles.carouselImage}
 			/>
 			<Text style={styles.carouselText}>{itemData.item.name}</Text>
 		</RenderListComponent>
 	);
 	const serieId = props.navigation.getParam('serieId');
-	const serieName = props.navigation.getParam('serieName');
 	const { error, loading, data } = useQuery(FETCH_SERIE_BY_ID, {
 		variables: { id: serieId },
 	});
@@ -38,7 +43,7 @@ const TvShowDetailsScreen = (props) => {
 			style={styles.imageBackgroundStyle}
 			source={{ uri: data.tv.poster.huge }}
 		>
-		<View style={styles.cardContainer}>
+			<View style={styles.cardContainer}>
 				<CardComponent
 					seriesView
 					styleCardCover={styles.cardTopContainer}
@@ -48,7 +53,7 @@ const TvShowDetailsScreen = (props) => {
 					// status={data.tv.status}
 				/>
 			</View>
-			
+
 			<View style={styles.flatlistContainer}>
 				<FlatList
 					ref={carouselRef}
@@ -65,6 +70,15 @@ TvShowDetailsScreen.navigationOptions = (navigationData) => {
 	const serieName = navigationData.navigation.getParam('serieName');
 	return {
 		headerTitle: serieName,
+		headerRight: () => (
+			<HeaderButtonComponent
+				title="Favorite"
+				iconName="favorite-border"
+				onPress={() => {
+					console.log('PRESSED');
+				}}
+			/>
+		),
 	};
 };
 export default TvShowDetailsScreen;

@@ -1,8 +1,16 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {
+	StyleSheet,
+	TouchableOpacity,
+	TouchableNativeFeedback,
+	Platform,
+} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import LoadingButton from '../../../components/common/loadingButton';
+
+import { Ionicons } from '@expo/vector-icons';
+import { IconButton, Colors } from 'react-native-paper';
 
 import CardComponent from '../../../components/common/card';
 import RenderListComponent from '../../../components/common/renderList';
@@ -32,9 +40,17 @@ const ShowsByCategory = (props) => {
 					source={data.item.backdrop.medium}
 					showStatus={data.item.status}
 					showSeasonCount={data.item.seasonCount}
-					showPopularity={data.item.popularity}
-					showVotes={data.item.votes}
-				></CardComponent>
+					// showPopularity={data.item.popularity}
+					// showVotes={data.item.votes}
+				>
+				
+					<IconButton
+						icon="alert-circle-outline"
+						color={Colors.red500}
+						size={30}
+						onPress={() => console.log('Pressed')}
+					/>
+				</CardComponent>
 			</RenderListComponent>
 		);
 	};
